@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub"
+	xmlns:api-2="http://www.mulesoft.org/schema/mule/api-2"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/api-2 http://www.mulesoft.org/schema/mule/api-2/current/mule-api-2.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<ftp:config name="FTP_Config" doc:name="FTP Config"
+		doc:id="d8bd40bb-9be2-4198-a560-7dbe5a9071bd">
+		<ftp:connection workingDir="${ftp.workingDir}"
+			host="${ftp.host}" username="${ftp.username}"
+			password="${ftp.password}" port="${ftp.port}" />
+	</ftp:config>
+	<http:listener-config name="spec-api-2-httpListenerConfig">
+        <http:listener-connection host="${listener.host}" port="${listener.port}" readTimeout="${listener.readTimeout}"/>
+    </http:listener-config>
+	<configuration-properties
+		doc:name="Configuration properties"
+		doc:id="87c24957-abac-4836-9830-d60104290103" file="config-local.yaml" />
+	<cloudhub:config name="CloudHub_Config" doc:name="CloudHub Config" doc:id="ab385307-b4a3-4a8f-90f2-6f8053fd5301" >
+		<cloudhub:connection username="${cloudhub.notifications.user}" password="${cloudhub.notifications.password}" environment="${environment.id}" />
+	</cloudhub:config>
+	<vm:config name="VM_Config" doc:name="VM Config" doc:id="7d8bc061-ec5f-487b-99d0-b9ff39569fe6" >
+		<vm:connection />
+		<vm:queues >
+			<vm:queue queueName="messgesQueue " queueType="PERSISTENT" maxOutstandingMessages="100" />
+			<vm:queue queueName="errorQueue" queueType="PERSISTENT" maxOutstandingMessages="10" />
+		</vm:queues>
+	</vm:config>
+	<configuration doc:name="Configuration" doc:id="0768db33-4502-4a65-9690-81f6fbe9431c" defaultErrorHandler-ref="global-error-handlerError_Handler" />
+
+
+</mule>

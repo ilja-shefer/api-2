@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd">
+	<error-handler name="global-error-handlerError_Handler"
+		doc:id="5b4ea091-52a7-439c-b3ab-1780a246d57c">
+		<on-error-propagate enableNotifications="true"
+			logException="true" doc:name="On Error Propagate"
+			doc:id="00f4bbbd-1389-4e7c-800f-6273107a6478" type="ANY">
+			<set-payload value='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;	"errorType": error.errorType.asString&#10;}]' doc:name="error type" doc:id="3030bd2d-7b53-47d1-b4a2-939ef58cfb35" />
+			<logger level="INFO" doc:name="Logger" doc:id="24f410c8-40a2-4352-8327-a22100a117be" message="Error occurred while processing the API request to FTP server" />
+			<cloudhub:create-notification doc:name="Create Notification" doc:id="76bec4b9-3c65-40bb-9d83-acf4d54de77d" config-ref="CloudHub_Config" domain="${domain}" >
+				<cloudhub:message ><![CDATA[Error occurred while processing the API request to FTP server]]></cloudhub:message>
+			</cloudhub:create-notification>
+		</on-error-propagate>
+	</error-handler>
+</mule>

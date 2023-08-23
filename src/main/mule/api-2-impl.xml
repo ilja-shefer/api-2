@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub"
+	xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd 
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="api-2-implFlow" doc:id="44304b25-110c-45e2-af97-d1663576ca43">
+		<ee:transform doc:name="append file name" doc:id="ffdeaac7-a5dd-4aa1-b3bb-8908aabfa529">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload ++ {"fileName": attributes.headers.filename}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<vm:publish queueName="messgesQueue" doc:name="Publish" doc:id="135296b0-cb15-4259-8ed5-ce0b0be1e114" config-ref="VM_Config" />
+	</flow>
+	<flow name="listener_flow" doc:id="5339b9db-c23e-487f-aacf-f2121bc671a5">
+		<vm:listener queueName="messgesQueue" doc:name="Listener" doc:id="040f1914-c118-413e-b312-4d0c1d61bb1c" config-ref="VM_Config">
+		</vm:listener>
+		<set-variable value="#[payload.fileName]" doc:name="name of incomming file" doc:id="1cbcc6f5-5325-40b7-81a6-5735c87dec00" variableName="name_of_incomming_file" />
+		<ee:transform doc:name="to end format" doc:id="4c4e0b21-02f7-4b7a-a87a-960f0a75e5ff">
+			<ee:message>
+					<ee:set-payload resource="commingDataModelToEndFormat.dwl" />
+			</ee:message>
+		</ee:transform>
+		<ftp:write doc:name="Write to FTP server" doc:id="5abd4a01-757b-4940-bf15-20b72f38b208" config-ref="FTP_Config" path='#["/finish/" ++ (vars.name_of_incomming_file replace /\..*n/ with ".csv")]'>
+			</ftp:write>
+	</flow>
+
+</mule>

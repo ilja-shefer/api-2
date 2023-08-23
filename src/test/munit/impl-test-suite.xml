@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd   http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="impl-test-suite.xml">
+		<munit:parameterizations file="error-list.yaml"/>
+	</munit:config>
+	<munit:test description="Test" doc:id="da9ffb65-a17d-4d60-8f35-980720397329" name="api-2-impl-test-suite-api-1-imlFlowTest">
+		<munit:behavior>
+			<munit-tools:spy doc:id="7e31349f-91ff-4ec0-a530-1256ac8299f9" doc:name="Spy of transform message" processor="ee:transform">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:id" whereValue="4c4e0b21-02f7-4b7a-a87a-960f0a75e5ff"/>
+				</munit-tools:with-attributes>
+				<munit-tools:after-call>
+					<set-variable doc:id="d8ae8a1c-c50f-4258-819f-80a7e7c03f90" doc:name="payload after transform message in the listener flow" value="#[%dw 2.0 output application/json --- readUrl(&quot;classpath://testPayloadAfterTransformMessage.csv&quot;, &quot;application/csv&quot;)]" variableName="payload_after_transform_message"/>
+					<munit-tools:assert-that doc:id="9bf35f32-a649-4f41-b843-24312bb77fb3" doc:name="Assert" expression="#[payload]" is="#[MunitTools::equalTo(vars.payload_after_transform_message)]"/>
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit-tools:mock-when doc:id="a8c25d13-03f5-4de6-8305-5269d5cedc59" doc:name="Mock when post request to ftp server" processor="ftp:write">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:id" whereValue="5abd4a01-757b-4940-bf15-20b72f38b208"/>
+				</munit-tools:with-attributes>
+
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:id="ac93f2be-25f4-4a60-9a5a-afee1f0a7ffa" doc:name="Set payload and attributes name">
+				<munit:payload value="#[{&#10;  &quot;Name&quot;: &quot;Max Mustermann&quot;,&#10;  &quot;Anrede&quot;: &quot;Herr&quot;,&#10;  &quot;AngelegtAm&quot;: &quot;2020-03-26T13:42:53Z&quot;,&#10;  &quot;GeaendertAm&quot;: &quot;2020-03-26T13:42:53Z&quot;,&#10;  &quot;Straße&quot;: &quot;Hüttenstrasse 50&quot;,&#10;  &quot;Postleitzahl&quot;: &quot;45527&quot;,&#10;  &quot;Ort&quot;: &quot;Hattingen&quot;,&#10;  &quot;Land&quot;: &quot;Deutschland&quot;,&#10;  &quot;GeborenAm&quot;: &quot;2005-05-17&quot;,&#10;  &quot;Zuzahlungsbefreiung&quot;: false,&#10;  &quot;Patientenerklaerung&quot;: false,&#10;  &quot;filename&quot;: &quot;test-name.json&quot;&#10;}]"/>
+
+			
+</munit:set-event>
+			<flow-ref doc:id="9960c669-6c37-409a-b8e1-8d839ef525c3" doc:name="Flow-ref to listener flow" name="listener_flow"/>
+		</munit:execution>
+	</munit:test>
+	<munit:test doc:id="77bb2c58-7eb1-4f8b-b090-5de1c31631a5" name="error-handler-test">
+		<munit:behavior>
+			<munit-tools:mock-when doc:id="ca8467fd-c4c9-42bc-95fa-9e18868b628f" doc:name="Mock when error post request" processor="ftp:write">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:id" whereValue="5abd4a01-757b-4940-bf15-20b72f38b208"/>
+				</munit-tools:with-attributes>
+				<munit-tools:then-return>
+					<munit-tools:error typeId="${errorType}"/>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:id="0b78453d-7b02-43d5-b35d-8415fb3e087b" doc:name="Create notification, do nothing" processor="cloudhub:create-notification">
+				<munit-tools:with-attributes>
+					<munit-tools:with-attribute attributeName="doc:id" whereValue="76bec4b9-3c65-40bb-9d83-acf4d54de77d"/>
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<munit:set-event doc:id="6f1e2c94-25d4-4dcd-a084-af087858dc59" doc:name="Set payload and attributes name">
+				<munit:payload value="#[{&#10;  &quot;Name&quot;: &quot;Max Mustermann&quot;,&#10;  &quot;Anrede&quot;: &quot;Herr&quot;,&#10;  &quot;AngelegtAm&quot;: &quot;2020-03-26T13:42:53Z&quot;,&#10;  &quot;GeaendertAm&quot;: &quot;2020-03-26T13:42:53Z&quot;,&#10;  &quot;Straße&quot;: &quot;Hüttenstrasse 50&quot;,&#10;  &quot;Postleitzahl&quot;: &quot;45527&quot;,&#10;  &quot;Ort&quot;: &quot;Hattingen&quot;,&#10;  &quot;Land&quot;: &quot;Deutschland&quot;,&#10;  &quot;GeborenAm&quot;: &quot;2005-05-17&quot;,&#10;  &quot;Zuzahlungsbefreiung&quot;: false,&#10;  &quot;Patientenerklaerung&quot;: false&#10;}]"/>
+				<munit:attributes value="#[{&quot;headers&quot;:{&quot;filename&quot; :&quot;test-name.json&quot;}}]"/>
+			</munit:set-event>
+			<try doc:id="55e67d37-5c59-47be-b1f4-dae5c0f10106" doc:name="Try">
+				<flow-ref doc:id="aa803239-d34b-4c0b-9208-9ceed74da546" doc:name="Flow-ref to vm listener flow" name="listener_flow"/>
+				<error-handler>
+					<on-error-continue doc:id="b0523bf6-ff99-49a7-8e6a-34465fcedf39" doc:name="On Error Continue" enableNotifications="true" logException="true" type="${errorType}"/>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-equals actual="#[payload]" doc:id="762c9256-359e-4fcd-84ce-7628f84a7f64" doc:name="Assert equals" expected="#[{&#10; &quot;errorType&quot;: &quot;${errorType}&quot;&#10;}]"/>
+		</munit:validation>
+	</munit:test>
+</mule>

@@ -3,14 +3,14 @@ listener:
   host: localhost
   port: "8081"
   readTimeout: "30000"
-  
+
 ftp:
   workingDir: /
-  host: "192.168.56.1"
-  port: "21"
-  username: "FTP - User"
-  password: "Password2023."
-  
+  host: test
+  port: test
+  username: test
+  password: test
+
 environment.id: local
 domain: local
 cloudhub.notifications.user: test

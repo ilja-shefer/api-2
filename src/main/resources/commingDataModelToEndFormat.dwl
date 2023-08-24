@@ -17,7 +17,7 @@ fun formatDataTime(value: String): String =
   "Anrede": payload.Anrede,
   "AngelegtAm": formatDataTime(payload.AngelegtAm),
   "GeaendertAm": formatDataTime(payload.GeaendertAm),
-  "Straße": payload["Straße"],
+  "Straße": payload["Strasse"],
   "Postleitzahl": payload.Postleitzahl,
   "Ort": payload.Ort,
   "Land": payload.Land,

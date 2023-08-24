@@ -30,6 +30,9 @@
 				<artifactId>mule-maven-plugin</artifactId>
 				<version>${mule.maven.plugin.version}</version>
 				<extensions>true</extensions>
+				<configuration>
+					<classifier>mule-application</classifier>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>com.mulesoft.munit.tools</groupId>
@@ -120,7 +123,7 @@
 		<dependency>
 			<groupId>64b18718-47f1-416d-a3ef-9088abe5d240</groupId>
 			<artifactId>api-2</artifactId>
-			<version>1.0.6</version>
+			<version>1.0.7</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>

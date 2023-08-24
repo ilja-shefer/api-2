@@ -22,7 +22,7 @@
 		</munit:behavior>
 		<munit:execution>
 			<munit:set-event doc:id="ac93f2be-25f4-4a60-9a5a-afee1f0a7ffa" doc:name="Set payload and attributes name">
-				<munit:payload value="#[{&#10;  &quot;Name&quot;: &quot;Max Mustermann&quot;,&#10;  &quot;Anrede&quot;: &quot;Herr&quot;,&#10;  &quot;AngelegtAm&quot;: &quot;2020-03-26T13:42:53Z&quot;,&#10;  &quot;GeaendertAm&quot;: &quot;2020-03-26T13:42:53Z&quot;,&#10;  &quot;Straße&quot;: &quot;Hüttenstrasse 50&quot;,&#10;  &quot;Postleitzahl&quot;: &quot;45527&quot;,&#10;  &quot;Ort&quot;: &quot;Hattingen&quot;,&#10;  &quot;Land&quot;: &quot;Deutschland&quot;,&#10;  &quot;GeborenAm&quot;: &quot;2005-05-17&quot;,&#10;  &quot;Zuzahlungsbefreiung&quot;: false,&#10;  &quot;Patientenerklaerung&quot;: false,&#10;  &quot;filename&quot;: &quot;test-name.json&quot;&#10;}]"/>
+				<munit:payload value='#[{&#10;  "Name": "Max Mustermann",&#10;  "Anrede": "Herr",&#10;  "AngelegtAm": "2020-03-26T13:42:53Z",&#10;  "GeaendertAm": "2020-03-26T13:42:53Z",&#10;  "Strasse": "Hüttenstrasse 50",&#10;  "Postleitzahl": "45527",&#10;  "Ort": "Hattingen",&#10;  "Land": "Deutschland",&#10;  "GeborenAm": "2005-05-17",&#10;  "Zuzahlungsbefreiung": false,&#10;  "Patientenerklaerung": false,&#10;  "filename": "test-name.json"&#10;}]' />
 
 			
 </munit:set-event>
@@ -47,8 +47,8 @@
 		</munit:behavior>
 		<munit:execution>
 			<munit:set-event doc:id="6f1e2c94-25d4-4dcd-a084-af087858dc59" doc:name="Set payload and attributes name">
-				<munit:payload value="#[{&#10;  &quot;Name&quot;: &quot;Max Mustermann&quot;,&#10;  &quot;Anrede&quot;: &quot;Herr&quot;,&#10;  &quot;AngelegtAm&quot;: &quot;2020-03-26T13:42:53Z&quot;,&#10;  &quot;GeaendertAm&quot;: &quot;2020-03-26T13:42:53Z&quot;,&#10;  &quot;Straße&quot;: &quot;Hüttenstrasse 50&quot;,&#10;  &quot;Postleitzahl&quot;: &quot;45527&quot;,&#10;  &quot;Ort&quot;: &quot;Hattingen&quot;,&#10;  &quot;Land&quot;: &quot;Deutschland&quot;,&#10;  &quot;GeborenAm&quot;: &quot;2005-05-17&quot;,&#10;  &quot;Zuzahlungsbefreiung&quot;: false,&#10;  &quot;Patientenerklaerung&quot;: false&#10;}]"/>
-				<munit:attributes value="#[{&quot;headers&quot;:{&quot;filename&quot; :&quot;test-name.json&quot;}}]"/>
+				<munit:payload value='#[{&#10;  "Name": "Max Mustermann",&#10;  "Anrede": "Herr",&#10;  "AngelegtAm": "2020-03-26T13:42:53Z",&#10;  "GeaendertAm": "2020-03-26T13:42:53Z",&#10;  "Strasse": "Hüttenstrasse 50",&#10;  "Postleitzahl": "45527",&#10;  "Ort": "Hattingen",&#10;  "Land": "Deutschland",&#10;  "GeborenAm": "2005-05-17",&#10;  "Zuzahlungsbefreiung": false,&#10;  "Patientenerklaerung": false&#10;}]' />
+				<munit:attributes value='#[{"headers":{"filename" :"test-name.json"}}]' />
 			</munit:set-event>
 			<try doc:id="55e67d37-5c59-47be-b1f4-dae5c0f10106" doc:name="Try">
 				<flow-ref doc:id="aa803239-d34b-4c0b-9208-9ceed74da546" doc:name="Flow-ref to vm listener flow" name="listener_flow"/>
